@@ -16,6 +16,11 @@ pipeline {
   // `agent any` = el pipeline se ejecuta en cualquier nodo/agente disponible.
   agent any
 
+  environment {
+    // IMAGE_NAME (tag para docker build)
+	  IMAGE_NAME = "myapp:${env.BUILD_NUMBER}"
+  }
+
   stages {
 
     // ==========================
@@ -65,6 +70,19 @@ pipeline {
             // Detecta errores de test
             sh 'make test'
           }
+        }
+      }
+    }
+
+    // =========================
+    // Practica 2 - Ejercicio 5
+    // =========================
+    stage('Build image') {
+      steps {
+        script {
+          def version = "1.0.${env.IMAGE_NAME}"
+          // Construye la imagen Docker usando el Dockerfile del repo
+          docker.build("${version}", "--build-arg VERSION=${version} -f devops/Dockerfile .")
         }
       }
     }
