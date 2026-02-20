@@ -86,6 +86,26 @@ pipeline {
         }
       }
     }
+
+    // =========================
+    // Practica 2 - Ejercicio 6
+    // =========================
+    stage('CD') {
+      steps {
+        // Levanta el contenedor definido en docker-compose.yml
+        // Espera 5 segundos
+        // Muestra los logs
+        sh 'docker compose up -d'
+        sh 'sleep 5'
+        sh 'docker compose logs java_app'
+      }
+      post {
+        always {
+            // Elimina contenedor
+            sh 'docker compose down --volumes'
+        }
+      }
+    }
     
   }
 }
