@@ -45,11 +45,6 @@ pipeline {
     // Practica 2 - Ejercicio 3 - 4
     // =============================
     stage('Lint') {
-      agent {
-        docker {
-          image 'java-imagen-ci'        
-        }
-      }
       steps {
         script {
           runInDocker('java-imagen-ci') {
