@@ -2,6 +2,15 @@
   Practica 2 - Pipelines CI/CD en Jenkins con Docker y Groovy
 
 */
+
+// ==========================
+// Practica 2 - Ejercicio 4
+// ==========================
+def runInDocker(String image, Closure body) {
+    docker.image(image).inside {
+        body()  
+    }
+}
  
 pipeline {
   // `agent any` = el pipeline se ejecuta en cualquier nodo/agente disponible.
@@ -32,9 +41,9 @@ pipeline {
       }
     }
 
-    // ==========================
-    // Practica 2 - Ejercicio 3
-    // ==========================
+    // =============================
+    // Practica 2 - Ejercicio 3 - 4
+    // =============================
     stage('Lint') {
       agent {
         docker {
@@ -42,23 +51,26 @@ pipeline {
         }
       }
       steps {
-        // Detecta errores de estilo
-        sh 'make lint'
+        script {
+          runInDocker('java-imagen-ci') {
+            // Detecta errores de estilo
+            sh 'make lint'
+          }
+        }
       }
     }
 
-    // ==========================
-    // Practica 2 - Ejercicio 3
-    // ==========================
+    // =============================
+    // Practica 2 - Ejercicio 3 - 4
+    // =============================
     stage('Test') {
-      agent {
-        docker {
-          image 'java-imagen-ci'
-        }
-      }
       steps {
-        // Detecta errores de test
-        sh 'make test'
+        script {
+          runInDocker('java-imagen-ci') {
+            // Detecta errores de test
+            sh 'make test'
+          }
+        }
       }
     }
     
