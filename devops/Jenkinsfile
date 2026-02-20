@@ -22,10 +22,23 @@ pipeline {
     // ==========================
     // Practica 2 - Ejercicio 3
     // ==========================
+    stage('Build CI Image') {
+      steps {
+        script {
+          // Construir imagen CI para ejecutar 'make link' y 'make test'
+          // Nombre: 'java-imagen-ci'
+          docker.build('java-imagen-ci', '-f devops/ci.Dockerfile .')
+        }
+      }
+    }
+
+    // ==========================
+    // Practica 2 - Ejercicio 3
+    // ==========================
     stage('Lint') {
       agent {
         docker {
-          image 'maven:3.8.6-openjdk-11-slim'        
+          image 'java-imagen-ci'        
         }
       }
       steps {
@@ -40,7 +53,7 @@ pipeline {
     stage('Test') {
       agent {
         docker {
-          image 'maven:3.8.6-openjdk-11-slim'
+          image 'java-imagen-ci'
         }
       }
       steps {
