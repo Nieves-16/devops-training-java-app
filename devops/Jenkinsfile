@@ -90,11 +90,20 @@ pipeline {
       }
     }
 
-    // =========================
-    // Practica 2 - Ejercicio 6
-    // =========================
+    // ===============================
+    // Practica 2 - Ejercicio 6 - 6.1
+    // ===============================
     stage('CD') {
+      when {
+        anyOf {
+          expression { return env.RUN_CD == 'true' }
+          branch 'develop'
+          branch 'master'
+        }
+      }
       steps {
+        echo "CD habilitado: RUN_CD=${env.RUN_CD}, branch=${env.BRANCH_NAME}"
+
         // Levanta el contenedor definido en docker-compose.yml
         // Espera 5 segundos
         // Muestra los logs
