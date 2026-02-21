@@ -17,8 +17,11 @@ pipeline {
   agent any
 
   environment {
-    // IMAGE_NAME (tag para docker build)
-	  IMAGE_NAME = "myapp:${env.BUILD_NUMBER}"
+    // IMAGE_NAME
+	  //IMAGE_NAME = "myapp:${env.BUILD_NUMBER}"
+    // IMAGE REPO LOCAL
+    IMAGE_REPO_LOCAL = 'scalian_training-java-hello-world'
+    IMAGE_TAG  = "0.0.2"
   }
 
   stages {
@@ -31,7 +34,7 @@ pipeline {
                 echo "Job: ${env.JOB_NAME}"
                 echo "Build: ${env.BUILD_NUMBER}"
             }
-        }
+    }
 
     // ==========================
     // Practica 2 - Ejercicio 3
@@ -80,7 +83,7 @@ pipeline {
     stage('Build image') {
       steps {
         script {
-          def version = "1.0.${env.IMAGE_NAME}"
+          def version   = "${IMAGE_REPO_LOCAL}:${IMAGE_TAG}"
           // Construye la imagen Docker usando el Dockerfile del repo
           docker.build("${version}", "--build-arg VERSION=${version} -f devops/Dockerfile .")
         }
