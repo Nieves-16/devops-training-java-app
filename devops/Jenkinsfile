@@ -23,12 +23,16 @@ pipeline {
     booleanParam(name: 'RUN_CD', defaultValue: false, description: 'Ejecutar CD')
   }
 
+  // ==========================
+  // Practica 2 - Ejercicio 6.4
+  // ==========================
   environment {
     // IMAGE_NAME
 	  //IMAGE_NAME = "myapp:${env.BUILD_NUMBER}"
     // IMAGE REPO LOCAL
     IMAGE_REPO_LOCAL = 'scalian_training-java-hello-world'
     IMAGE_TAG  = "0.0.2"
+    APP_URL = "http://localhost:5001/"
   }
 
   stages {
@@ -40,6 +44,8 @@ pipeline {
             steps {
                 echo "Job: ${env.JOB_NAME}"
                 echo "Build: ${env.BUILD_NUMBER}"
+                echo "Imagen: ${env.IMAGE_REPO_LOCAL}"
+                sh "echo URL=${APP_URL}"
             }
     }
 
