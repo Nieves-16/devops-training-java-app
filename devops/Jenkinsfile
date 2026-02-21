@@ -104,18 +104,20 @@ pipeline {
       steps {
         echo "CD habilitado: RUN_CD=${env.RUN_CD}, branch=${env.BRANCH_NAME}"
 
-        // Determinar entorno según la rama
-        env.DEPLOY_ENV = (env.BRANCH_NAME == 'master') ? 'PRO' : 'DEV'
+        script {
+          // Determinar entorno según la rama
+          env.DEPLOY_ENV = (env.BRANCH_NAME == 'master') ? 'PRO' : 'DEV'
 
-        // Mostrar mensaje en logs
-        echo "Deploying to ${env.DEPLOY_ENV}"
+          // Mostrar mensaje en logs
+          echo "Deploying to ${env.DEPLOY_ENV}"
 
-        // Levanta el contenedor definido en docker-compose.yml
-        // Espera 5 segundos
-        // Muestra los logs
-        sh 'docker compose up -d'
-        sh 'sleep 5'
-        sh 'docker compose logs java_app'
+          // Levanta el contenedor definido en docker-compose.yml
+          // Espera 5 segundos
+          // Muestra los logs
+          sh 'docker compose up -d'
+          sh 'sleep 5'
+          sh 'docker compose logs java_app'
+        }
       }
       post {
         always {
