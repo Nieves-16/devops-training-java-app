@@ -136,6 +136,16 @@ pipeline {
         always {
             // Elimina contenedor
             sh 'docker compose down --volumes'
+            sh 'docker rmi $IMAGE_REPO_LOCAL || true'
+        }
+        success {
+          // Imprime SUCCESS
+          echo 'SUCCESS'
+        }
+        failure {
+          // Imprime FAILURE y muestra logs
+          echo 'FAILURE'
+          sh 'docker compose logs || true'
         }
       }
     }
