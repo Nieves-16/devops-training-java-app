@@ -16,6 +16,13 @@ pipeline {
   // `agent any` = el pipeline se ejecuta en cualquier nodo/agente disponible.
   agent any
 
+  // ==========================
+  // Practica 2 - Ejercicio 6.3
+  // ==========================
+  parameters {
+    booleanParam(name: 'RUN_CD', defaultValue: false, description: 'Ejecutar CD')
+  }
+
   environment {
     // IMAGE_NAME
 	  //IMAGE_NAME = "myapp:${env.BUILD_NUMBER}"
@@ -90,19 +97,19 @@ pipeline {
       }
     }
 
-    // ===============================
-    // Practica 2 - Ejercicio 6 - 6.1
-    // ===============================
+    // ===========================================
+    // Practica 2 - Ejercicio 6 - 6.1 - 6.2 - 6.3
+    // ===========================================
     stage('CD') {
       when {
         anyOf {
-          expression { return env.RUN_CD == 'true' }
+          expression { return params.RUN_CD }
           branch 'develop'
           branch 'master'
         }
       }
       steps {
-        echo "CD habilitado: RUN_CD=${env.RUN_CD}, branch=${env.BRANCH_NAME}"
+        echo "CD habilitado: RUN_CD=${params.RUN_CD}, branch=${env.BRANCH_NAME}"
 
         script {
           // Determinar entorno según la rama
