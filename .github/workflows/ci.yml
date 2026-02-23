@@ -67,7 +67,7 @@ jobs:
           echo "APP_URL: ${{ env.APP_URL }}"
 
       # Imprimir parámetros
-      - name: Imprimir parámetros
+      - name: Imprimir parametros
         run: |
           echo "RUN_CD value: ${{ inputs.RUN_CD }}"
           echo "DEPLOY_ENV value: ${{ inputs.DEPLOY_ENV }}"
