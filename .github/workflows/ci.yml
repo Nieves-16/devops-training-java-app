@@ -118,7 +118,7 @@ jobs:
             echo "DEPLOY_ENV=${DEPLOY_ENV}" >> $GITHUB_ENV
             echo "COMPOSE_PROJECT=$(echo ${DEPLOY_ENV} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-       # [E6] Build app image (para que la imagen exista en este job)
+       # Build app image (para que la imagen exista en este job)
       - name: Build app image
         run: |
           docker build -t "${IMAGE_NAME}" --build-arg VERSION="${VERSION_JAR}" -f devops/Dockerfile .
