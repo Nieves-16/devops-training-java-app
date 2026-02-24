@@ -15,7 +15,7 @@ volumes:
 services:
   ## TO BUILD AND RUN APP LOCALLY
   java_app:
-    image: scalian_training-java-hello-world:0.0.2
+    image: Nieves-16/devops-training-java-app:0.0.2
     container_name: java_app
     ports:
       - 8084:8080

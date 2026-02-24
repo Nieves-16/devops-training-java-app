@@ -1,10 +1,11 @@
 name: "CI/CD"
 
-# Practica 3 - Ejercicio 3
+# Practica 3 - Ejercicio 3 - 7
 # Variables de entorno a nivel de workflow
 env:
   IMAGE_NAME: my-app
   APP_URL: myapp
+  IMAGE_REPO: Nieves-16/devops-training-java-app
 
 # Practica 3 - Ejercicio 1 - 4
 # Eventos que disparan el workflow
@@ -64,7 +65,8 @@ jobs:
       # Imprimir variables
       - name: Variables
         run: |
-          echo "IMAGE_NAME: $IMAGE_NAME"
+          echo "VERSION_JAR=$(cat VERSION)-SNAPSHOT" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${IMAGE_REPO}:$(cat VERSION)" >> $GITHUB_ENV
           echo "APP_URL: ${{ env.APP_URL }}"
           echo "REGISTRY_HOST: ${{ vars.REGISTRY_HOST }}"
 
@@ -89,3 +91,9 @@ jobs:
         run: |
           docker run --rm -v "${GITHUB_WORKSPACE}:/app" -w /app java-imagen-ci sh -lc \
             make test
+
+      # Build image
+      - name: Build image
+        run: |
+          # Example:
+          # docker build -t "${IMAGE_NAME}" --build-arg VERSION="${VERSION_JAR}" -f devops/Dockerfile .
