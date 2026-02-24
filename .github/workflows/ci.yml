@@ -135,5 +135,5 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          docker compose down --volumes
+          docker compose -p "${COMPOSE_PROJECT}" down --volumes
           docker rmi $IMAGE_NAME || true
